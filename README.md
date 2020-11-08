@@ -1,6 +1,6 @@
 # java_restapi_access1
 
-Web APIにPOSTでリクエストして結果をDBに格納する実装例
+Web APIにPOSTでリクエストして結果をDBに格納する実装例(JDK8)
 
 ## 概要
 
