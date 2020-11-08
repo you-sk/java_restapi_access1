@@ -3,7 +3,7 @@ package com.mycompany.mavenproject1.entities;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ApiResponce {
+public class ApiResponse {
 
     @SerializedName("success")
     @Expose

@@ -2,7 +2,7 @@ package com.mycompany.mavenproject1;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.mycompany.mavenproject1.entities.ApiResponce;
+import com.mycompany.mavenproject1.entities.ApiResponse;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -34,21 +34,21 @@ public class app {
 
         if (imagePath == null) {
             System.out.println("[警告]image_path指定なし");
-            imagePath = "/image/d03f1d36ca69348c51aa/c413eac329e1c0d03/test.jpg";   //test用
+//            imagePath = "/image/d03f1d36ca69348c51aa/c413eac329e1c0d03/test.jpg";   //test用
         }
         //WebAPIにPOSTでアクセス
-        ApiResponce res = getRes(imagePath);
+        ApiResponse res = getRes(imagePath);
         res.imagePath = imagePath;
         //結果をDBへ格納
         insertDb(res);
 //        System.out.println(res.message);
     }
 
-    private static ApiResponce getRes(String imagePath) {
+    private static ApiResponse getRes(String imagePath) {
         //POSTリクエストの準備
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("http://example.com/");
-        target = client.target("http://localhost:3000/api");    //test用
+//        target = client.target("http://localhost:3000/api");    //test用
         final Invocation.Builder builder = target.request();
         final Form form = new Form();
         form.param("image_path", imagePath);
@@ -58,7 +58,7 @@ public class app {
         Response response = builder.post(Entity.form(form), Response.class);
         int responseTimestamp = (int) (System.currentTimeMillis() / 1000L);
 
-        ApiResponce res = new ApiResponce();
+        ApiResponse res = new ApiResponse();
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
             //レスポンスJSONをパース
             String json = response.readEntity(String.class);
@@ -66,7 +66,7 @@ public class app {
 
             try {
                 Gson gson = new Gson();
-                res = gson.fromJson(json, ApiResponce.class);
+                res = gson.fromJson(json, ApiResponse.class);
             } catch (JsonSyntaxException e) {
                 //パース出来なかったときは失敗扱い
                 res.success = false;
@@ -84,7 +84,7 @@ public class app {
     }
 
     //DB格納（SQLITE3使用)
-    private static void insertDb(ApiResponce res) {
+    private static void insertDb(ApiResponse res) {
         if (res == null) {
             return;
         }
